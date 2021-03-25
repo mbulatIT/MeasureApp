@@ -7,27 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9512FD7F2607E4DD006464EF /* LineDrawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9512FD7E2607E4DD006464EF /* LineDrawData.swift */; };
+		9512FD912607EFE3006464EF /* PolygonDrawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9512FD902607EFE3006464EF /* PolygonDrawData.swift */; };
 		952BF0902603EC1C00E0644B /* AimNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952BF08F2603EC1C00E0644B /* AimNode.swift */; };
-		952BF0942603F6BF00E0644B /* PointNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952BF0932603F6BF00E0644B /* PointNode.swift */; };
-		9539B4002602400D00DC18BD /* SCNVector3+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B3FF2602400D00DC18BD /* SCNVector3+Tools.swift */; };
+		95301BC72607F85E00B7246B /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95301BC62607F85E00B7246B /* Line.swift */; };
+		95AA604B260A942F00D73B67 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AA604A260A942F00D73B67 /* CGPoint+Distance.swift */; };
+		95AA6058260BDA1700D73B67 /* CGContext+DrawString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AA6057260BDA1700D73B67 /* CGContext+DrawString.swift */; };
+		95B3BA4626073AE60066BC40 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B3BA4526073AE60066BC40 /* CanvasView.swift */; };
 		95DBBAA725FD1520006D58E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAA625FD1520006D58E2 /* AppDelegate.swift */; };
 		95DBBAA925FD1520006D58E2 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 95DBBAA825FD1520006D58E2 /* art.scnassets */; };
 		95DBBAAE25FD1520006D58E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95DBBAAC25FD1520006D58E2 /* Main.storyboard */; };
 		95DBBAB025FD1524006D58E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95DBBAAF25FD1524006D58E2 /* Assets.xcassets */; };
 		95DBBAB325FD1524006D58E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95DBBAB125FD1524006D58E2 /* LaunchScreen.storyboard */; };
 		95DBBABC25FE1EF0006D58E2 /* MeasureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBABB25FE1EF0006D58E2 /* MeasureViewController.swift */; };
-		95DBBABF25FE2792006D58E2 /* SCNSphere+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBABE25FE2792006D58E2 /* SCNSphere+Init.swift */; };
 		95DBBAC225FE2818006D58E2 /* SCNVector3+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAC125FE2818006D58E2 /* SCNVector3+Distance.swift */; };
-		95DBBAC625FEAAEC006D58E2 /* SCNNode+Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAC525FEAAEC006D58E2 /* SCNNode+Line.swift */; };
-		95DBBAC925FEB31A006D58E2 /* TextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAC825FEB31A006D58E2 /* TextNode.swift */; };
-		95DBBACC25FEB47E006D58E2 /* LineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBACB25FEB47E006D58E2 /* LineNode.swift */; };
-		95DBBAD325FFE2E4006D58E2 /* PolygonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAD225FFE2E4006D58E2 /* PolygonNode.swift */; };
+		95DBBAD325FFE2E4006D58E2 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBBAD225FFE2E4006D58E2 /* Polygon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9512FD7E2607E4DD006464EF /* LineDrawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDrawData.swift; sourceTree = "<group>"; };
+		9512FD902607EFE3006464EF /* PolygonDrawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonDrawData.swift; sourceTree = "<group>"; };
 		952BF08F2603EC1C00E0644B /* AimNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AimNode.swift; sourceTree = "<group>"; };
-		952BF0932603F6BF00E0644B /* PointNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointNode.swift; sourceTree = "<group>"; };
-		9539B3FF2602400D00DC18BD /* SCNVector3+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Tools.swift"; sourceTree = "<group>"; };
+		95301BC62607F85E00B7246B /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		95AA604A260A942F00D73B67 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		95AA6057260BDA1700D73B67 /* CGContext+DrawString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGContext+DrawString.swift"; sourceTree = "<group>"; };
+		95B3BA4526073AE60066BC40 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		95DBBAA325FD1520006D58E2 /* MeasureApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeasureApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95DBBAA625FD1520006D58E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95DBBAA825FD1520006D58E2 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -36,12 +40,8 @@
 		95DBBAB225FD1524006D58E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95DBBAB425FD1524006D58E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95DBBABB25FE1EF0006D58E2 /* MeasureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewController.swift; sourceTree = "<group>"; };
-		95DBBABE25FE2792006D58E2 /* SCNSphere+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNSphere+Init.swift"; sourceTree = "<group>"; };
 		95DBBAC125FE2818006D58E2 /* SCNVector3+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Distance.swift"; sourceTree = "<group>"; };
-		95DBBAC525FEAAEC006D58E2 /* SCNNode+Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Line.swift"; sourceTree = "<group>"; };
-		95DBBAC825FEB31A006D58E2 /* TextNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNode.swift; sourceTree = "<group>"; };
-		95DBBACB25FEB47E006D58E2 /* LineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNode.swift; sourceTree = "<group>"; };
-		95DBBAD225FFE2E4006D58E2 /* PolygonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonNode.swift; sourceTree = "<group>"; };
+		95DBBAD225FFE2E4006D58E2 /* Polygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,25 +55,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		952BF08A2603EB3000E0644B /* Nodes */ = {
+		9512FD932607F200006464EF /* DrawData */ = {
 			isa = PBXGroup;
 			children = (
-				95DBBAD225FFE2E4006D58E2 /* PolygonNode.swift */,
-				952BF0932603F6BF00E0644B /* PointNode.swift */,
-				95DBBAC825FEB31A006D58E2 /* TextNode.swift */,
-				95DBBACB25FEB47E006D58E2 /* LineNode.swift */,
+				9512FD902607EFE3006464EF /* PolygonDrawData.swift */,
+				9512FD7E2607E4DD006464EF /* LineDrawData.swift */,
+			);
+			path = DrawData;
+			sourceTree = "<group>";
+		};
+		952BF08A2603EB3000E0644B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				95DBBAD225FFE2E4006D58E2 /* Polygon.swift */,
+				95301BC62607F85E00B7246B /* Line.swift */,
 				952BF08F2603EC1C00E0644B /* AimNode.swift */,
 			);
-			path = Nodes;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		952BF08B2603EB5300E0644B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				95DBBABE25FE2792006D58E2 /* SCNSphere+Init.swift */,
-				9539B3FF2602400D00DC18BD /* SCNVector3+Tools.swift */,
 				95DBBAC125FE2818006D58E2 /* SCNVector3+Distance.swift */,
-				95DBBAC525FEAAEC006D58E2 /* SCNNode+Line.swift */,
+				95AA6057260BDA1700D73B67 /* CGContext+DrawString.swift */,
+				95AA604A260A942F00D73B67 /* CGPoint+Distance.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -105,6 +111,14 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		95B3BA4826073B510066BC40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				95B3BA4526073AE60066BC40 /* CanvasView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		95DBBA9A25FD1520006D58E2 = {
 			isa = PBXGroup;
 			children = (
@@ -125,10 +139,12 @@
 			isa = PBXGroup;
 			children = (
 				95DBBAA625FD1520006D58E2 /* AppDelegate.swift */,
+				9512FD932607F200006464EF /* DrawData */,
+				95B3BA4826073B510066BC40 /* Views */,
 				952BF08E2603EC0100E0644B /* ViewControllers */,
 				952BF08D2603EBD600E0644B /* Storyboards */,
 				952BF08C2603EB9600E0644B /* Resources */,
-				952BF08A2603EB3000E0644B /* Nodes */,
+				952BF08A2603EB3000E0644B /* Models */,
 				952BF08B2603EB5300E0644B /* Extensions */,
 			);
 			path = MeasureApp;
@@ -205,15 +221,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95DBBACC25FEB47E006D58E2 /* LineNode.swift in Sources */,
-				95DBBAC925FEB31A006D58E2 /* TextNode.swift in Sources */,
-				95DBBAD325FFE2E4006D58E2 /* PolygonNode.swift in Sources */,
-				95DBBABF25FE2792006D58E2 /* SCNSphere+Init.swift in Sources */,
+				95AA6058260BDA1700D73B67 /* CGContext+DrawString.swift in Sources */,
+				9512FD7F2607E4DD006464EF /* LineDrawData.swift in Sources */,
+				95B3BA4626073AE60066BC40 /* CanvasView.swift in Sources */,
+				95DBBAD325FFE2E4006D58E2 /* Polygon.swift in Sources */,
+				9512FD912607EFE3006464EF /* PolygonDrawData.swift in Sources */,
+				95301BC72607F85E00B7246B /* Line.swift in Sources */,
 				95DBBABC25FE1EF0006D58E2 /* MeasureViewController.swift in Sources */,
 				952BF0902603EC1C00E0644B /* AimNode.swift in Sources */,
-				952BF0942603F6BF00E0644B /* PointNode.swift in Sources */,
-				9539B4002602400D00DC18BD /* SCNVector3+Tools.swift in Sources */,
-				95DBBAC625FEAAEC006D58E2 /* SCNNode+Line.swift in Sources */,
+				95AA604B260A942F00D73B67 /* CGPoint+Distance.swift in Sources */,
 				95DBBAA725FD1520006D58E2 /* AppDelegate.swift in Sources */,
 				95DBBAC225FE2818006D58E2 /* SCNVector3+Distance.swift in Sources */,
 			);

@@ -13,42 +13,50 @@ final class MeasureViewController: UIViewController {
     
     @IBOutlet private weak var sceneView: ARSCNView!
     @IBOutlet private weak var clearButton: UIButton!
+    @IBOutlet weak var textureButton: UIButton!
 
     // MARK: Constants
     
     private let pointColor: UIColor = .purple
-    private let pointRadius: CGFloat = 0.025
-    private let lineWidth: CGFloat = 0.025
+    private let pointRadius: CGFloat = 5
+    private let lineWidth: CGFloat = 4
     private let aimNodeSize: CGFloat = 0.3
     private let minimumPointsDistance: CGFloat = 0.05
     private let surfaceSearchImageSize: CGFloat = 60
     private let arTextFontSize: CGFloat = 30
-    private let frameRate: Double = 20
+    private let frameRate: Double = 60
     private let surfaceSearchImageView = UIImageView()
     private let surfaceSearchAnimationKey = "surfaceSearchAnimation"
     private let surfaceSearchAnimationKeyPath =  "position"
     private let searchSurfaceImageName = "search_icon"
+    private let tempId = "0123"
     private let defaultAnimationDuration: Double = 4
     private let polygonColor = #colorLiteral(red: 0.994084537, green: 1, blue: 0.4055556059, alpha: 0.7)
     private let minimumPointsCount = 3
-    private var lastPoint: PointNode?
+    private var lastPoint: SCNVector3?
     private var trackedLine: SCNNode?
-    private var trackedLineLenghtText: TextNode?
-    private var trackedAim:AimNode?
-    private var points: [PointNode] = []
-    private var lines: [SCNNode] = []
-    private var polygons: [PolygonNode] = []
+    private var trackedAim: AimNode?
+    private var points: [SCNVector3] = []
+    private var lines: [Line] = []
+    private var polygon: Polygon? {
+        didSet {
+            textureButton.isHidden = polygon == nil
+        }
+    }
+    private var currentPolygonDrawData: PolygonDrawData?
     private var isDrawingFinished = false
     private var raycastTrackerTimer: Timer?
     private var queryAlignment: ARRaycastQuery.TargetAlignment?
     private var alignment: ARPlaneAnchor.Alignment = .horizontal
     private var trackLineTimer: Timer?
-    private var needShowPlaneAim = false {
+    private var needShowSurfaceSearchImage = false {
         didSet {
-            surfaceSearchImageView.isHidden = !needShowPlaneAim
+            surfaceSearchImageView.isHidden = !needShowSurfaceSearchImage
         }
     }
-    
+    private var textureNames = ["grass_icon", "brick_wall_icon", "metal_icon"]
+    private var canvasView: CanvasView!
+
     
     // MARK: ViewController Lifecycle
     
@@ -57,13 +65,15 @@ final class MeasureViewController: UIViewController {
         setupScene()
         setupSurfaceSearchImageView()
         setupClearButton()
+        setupTextureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        needShowPlaneAim = true
+        needShowSurfaceSearchImage = true
         setupARSession()
         setupRaycastTracker()
+        setupCanvasView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -88,35 +98,77 @@ extension MeasureViewController {
                 return
             }
             DispatchQueue.main.async {
+                self.redrawCanvas()
                 if self.isDrawingFinished {
-                    timer.invalidate()
-                    self.raycastTrackerTimer = nil
                     self.removeTrackedNodes()
                     self.surfaceSearchImageView.isHidden = true
                 } else {
                     guard let result = self.raycast(),
                           let planeAnchor = result.anchor as? ARPlaneAnchor else {
                         self.removeTrackedNodes()
-                        self.needShowPlaneAim = true
+                        self.needShowSurfaceSearchImage = true
                         return
                     }
-                    self.needShowPlaneAim = false
+                    self.needShowSurfaceSearchImage = false
                     let position = SCNVector3.positionFrom(matrix: result.worldTransform)
                     
                     self.updateTrackedAimNode(position: position, alignment: planeAnchor.alignment)
-                    self.updateTrackedLineNode(aimPosition: position)
                 }
             }
         }
     }
     
+    private func redrawCanvas() {
+        guard let firstPoint = points.first else {
+            return
+        }
+        
+        canvasView.lineWidth = lineWidth
+        canvasView.pointRadius = pointRadius
+
+        let linesDrawData = lines.map({LineDrawData(id: $0.id,
+                                                    startPoint: mapPoint(point: $0.startPoint),
+                                                    endPoint: mapPoint(point: $0.endPoint),
+                                                    center: mapPoint(point: $0.center),
+                                                    worldLenght: $0.lenght)})
+        let firstPoint2D = mapPoint(point: firstPoint)
+        var polygonCenter: CGPoint?
+        if let polygonCenter3D = polygon?.center {
+            polygonCenter = mapPoint(point: polygonCenter3D)
+        }
+        var aimLine: LineDrawData?
+        if let aimPosition = trackedAim?.position,
+           let lastPoint = lastPoint {
+            let line = Line(startPoint: lastPoint, endPoint: aimPosition)
+            let aimPoint = mapPoint(point: aimPosition)
+            let lastPoint2D = mapPoint(point: lastPoint)
+            aimLine = LineDrawData(id: line.id,
+                                   startPoint: lastPoint2D,
+                                   endPoint: aimPoint,
+                                   center: mapPoint(point: line.center),
+                                   worldLenght: line.lenght)
+        }
+        let polygonDrawData = PolygonDrawData(id: tempId, lines: linesDrawData,
+                                                firstPoint: firstPoint2D,
+                                                isPolygonFinished: isDrawingFinished,
+                                                center: polygonCenter, area: polygon?.area,
+                                                aimLine: aimLine)
+        canvasView.setPolygonDrawData(polygonDrawData)
+        
+    }
+    
+    private func mapPoint(point: SCNVector3) -> CGPoint {
+        let point3 = sceneView.projectPoint(point)
+        return CGPoint(x: CGFloat(point3.x), y: CGFloat(point3.y))
+    }
+    
     private func raycast() -> ARRaycastResult? {
-        guard let query = self.sceneView.raycastQuery(from: self.sceneView.center, allowing: .estimatedPlane, alignment: self.queryAlignment ?? .any) else {
-            print("No surface found")
+        guard let query = self.sceneView.raycastQuery(from: self.sceneView.center, allowing: .existingPlaneInfinite, alignment: self.queryAlignment ?? .any) else {
+//            print("No surface found")
             return nil
         }
         guard let result = self.sceneView.session.raycast(query).first else {
-            print("No raycast found for query \(query)")
+//            print("No raycast found for query \(query)")
             return nil
         }
         return result
@@ -128,11 +180,26 @@ extension MeasureViewController {
 
 extension MeasureViewController {
     
+    private func setupCanvasView() {
+        canvasView = CanvasView()
+        canvasView.frame = sceneView.frame
+        canvasView.isUserInteractionEnabled = false
+        canvasView.backgroundColor = .clear
+        view.addSubview(canvasView)
+    }
+    
     private func setupClearButton() {
         clearButton.layer.borderWidth = 5
         clearButton.layer.borderColor = UIColor.white.cgColor
         clearButton.layer.cornerRadius = clearButton.frame.height / 4
         clearButton.layer.masksToBounds = true
+    }
+    
+    private func setupTextureButton() {
+        textureButton.layer.borderWidth = 5
+        textureButton.layer.borderColor = UIColor.white.cgColor
+        textureButton.layer.cornerRadius = clearButton.frame.height / 4
+        textureButton.layer.masksToBounds = true
     }
     
     private func setupScene() {
@@ -187,53 +254,47 @@ extension MeasureViewController {
 }
 
 
-// MARK: Nodes
+// MARK: Save points
 
 extension MeasureViewController {
     
     private func removeTrackedNodes() {
-        trackedLine?.removeFromParentNode()
-        trackedLineLenghtText?.removeFromParentNode()
         removeTrackedAimNode()
     }
 
-    private func addPointNode(position: SCNVector3) {
-        var point = PointNode(position: position, radius: pointRadius, color: pointColor)
+    private func addPoint(position: SCNVector3) {
         
         var isLastPoint = false
         
         if let firstPoint = points.first,
            points.count >= minimumPointsCount,
-           point.position.distance(to: firstPoint.position) < minimumPointsDistance {
-            point = firstPoint
+           position.distance(to: firstPoint) < minimumPointsDistance,
+           let lastPoint = points.last {
             isLastPoint = true
+            addLine(from: lastPoint, to: firstPoint)
         }
-        if let lastPoint = points.last {
-            addLineNode(from: lastPoint, to: point)
+        if let lastPoint = points.last, isLastPoint == false {
+            addLine(from: lastPoint, to: position)
         }
         if isLastPoint {
             lastPoint = nil
             isDrawingFinished = true
-            addPolygonNode()
+            addPolygon()
         } else {
-            sceneView.scene.rootNode.addChildNode(point)
-            points.append(point)
-            lastPoint = point
+            points.append(position)
+            lastPoint = position
         }
     }
     
-    private func addPolygonNode() {
-        let polygon = PolygonNode(points: points, alignment: alignment, color: polygonColor)
+    private func addPolygon() {
+        let polygon = Polygon(points: points, alignment: alignment)
         sceneView.scene.rootNode.addChildNode(polygon)
-        polygons.append(polygon)
-        print(polygon.area)
+        self.polygon = polygon
     }
     
-    private func addLineNode(from startPoint: SCNNode, to endPoint: SCNNode) {
-        let lineNode = LineNode(from: startPoint, to: endPoint, width: lineWidth, color: .white, alignment: alignment)
-        lines.append(lineNode)
-        sceneView.scene.rootNode.addChildNode(lineNode)
-        print( String(format: "Distance between nodes:  %.2f cm", lineNode.lenght * 100))
+    private func addLine(from startPoint: SCNVector3, to endPoint: SCNVector3) {
+        let line = Line(startPoint: startPoint, endPoint: endPoint)
+        lines.append(line)
     }
     
     private func updateTrackedAimNode(position: SCNVector3, alignment: ARPlaneAnchor.Alignment) {
@@ -246,32 +307,6 @@ extension MeasureViewController {
             sceneView.scene.rootNode.addChildNode(aimNode)
             trackedAim = aimNode
         }
-    }
-    
-    private func updateTrackedLineNode(aimPosition: SCNVector3) {
-        self.trackedLine?.removeFromParentNode()
-        
-        guard let lastPoint = lastPoint else {
-            return
-        }
-        
-        let line = SCNNode.createLineNode(from: lastPoint.position, to: aimPosition, color: .white)
-        self.trackedLine = line
-        
-        self.sceneView.scene.rootNode.addChildNode(line)
-        
-        updateTrackeLineLenghtText(aimPosition: aimPosition, lenght: lastPoint.position.distance(to: aimPosition))
-    }
-    
-    private func updateTrackeLineLenghtText(aimPosition: SCNVector3, lenght: CGFloat) {
-        trackedLineLenghtText?.removeFromParentNode()
-        let text = String(format: "%.2f cm", lenght * 100)
-        let textPosition = SCNVector3(CGFloat(aimPosition.x), CGFloat(aimPosition.y), CGFloat(aimPosition.z) - aimNodeSize / 2)
-        let textNode = TextNode(text, position: textPosition, alignment: alignment)
-        trackedLineLenghtText = textNode
-        textNode.color = .white
-        textNode.font = .systemFont(ofSize: arTextFontSize)
-        sceneView.scene.rootNode.addChildNode(textNode)
     }
     
     private func removeTrackedAimNode() {
@@ -309,27 +344,27 @@ extension MeasureViewController {
                 }
             }
         }
-        addPointNode(position: position)
+        addPoint(position: position)
     }
 
     @IBAction func clearButtonPressed(_ sender: Any) {
-        points.forEach({
-            $0.removeFromParentNode()
-        })
-        lines.forEach({
-            $0.removeFromParentNode()
-        })
-        polygons.forEach({
-            $0.removeFromParentNode()
-        })
         points.removeAll()
         lines.removeAll()
-        polygons.removeAll()
+        polygon?.removeFromParentNode()
+        polygon = nil
+        canvasView.clear()
         isDrawingFinished = false
         setupRaycastTracker()
         surfaceSearchImageView.isHidden = false
         lastPoint = nil
         queryAlignment = nil
+    }
+    
+    
+    @IBAction func textureButtonPressed(_ sender: Any) {
+        if let imageName = textureNames.randomElement() {
+            polygon?.applyTexture(image: UIImage(named: imageName))
+        }
     }
 }
 
@@ -341,4 +376,5 @@ extension MeasureViewController: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         setupRaycastTracker()
     }
+    
 }

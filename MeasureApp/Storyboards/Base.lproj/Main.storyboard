@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VB6-aD-fpE">
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" jitteringEnabled="YES" wantsMultisampling="YES" autoenablesDefaultLighting="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VB6-aD-fpE">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </arscnView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="olW-sl-Xgx">
@@ -32,21 +32,38 @@
                                     <action selector="clearButtonPressed:" destination="riz-dR-iRv" eventType="touchUpInside" id="gIO-dw-Idu"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMZ-q2-ar6">
+                                <rect key="frame" x="20" y="64" width="150" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="I5E-Bb-iyA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
+                                <state key="normal" title="Texture">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="textureButtonPressed:" destination="riz-dR-iRv" eventType="touchUpInside" id="LIO-bs-XJl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CpX-bR-mv7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="wMZ-q2-ar6" firstAttribute="leading" secondItem="CpX-bR-mv7" secondAttribute="leading" constant="20" id="1ox-tY-rJg"/>
                             <constraint firstItem="VB6-aD-fpE" firstAttribute="leading" secondItem="CpX-bR-mv7" secondAttribute="leading" id="643-EE-fNC"/>
                             <constraint firstItem="olW-sl-Xgx" firstAttribute="top" secondItem="CpX-bR-mv7" secondAttribute="top" constant="20" id="6mV-6b-LsY"/>
+                            <constraint firstItem="wMZ-q2-ar6" firstAttribute="height" secondItem="olW-sl-Xgx" secondAttribute="height" id="7fn-fQ-ar2"/>
                             <constraint firstItem="CpX-bR-mv7" firstAttribute="trailing" secondItem="olW-sl-Xgx" secondAttribute="trailing" constant="20" id="C2R-DT-DcB"/>
                             <constraint firstItem="VB6-aD-fpE" firstAttribute="top" secondItem="a2N-zH-xTc" secondAttribute="top" id="Rjq-WD-4go"/>
                             <constraint firstItem="CpX-bR-mv7" firstAttribute="trailing" secondItem="VB6-aD-fpE" secondAttribute="trailing" id="hUx-YL-Cwz"/>
                             <constraint firstAttribute="bottom" secondItem="VB6-aD-fpE" secondAttribute="bottom" id="loP-PI-WiG"/>
+                            <constraint firstItem="wMZ-q2-ar6" firstAttribute="top" secondItem="CpX-bR-mv7" secondAttribute="top" constant="20" id="sJR-6c-ijH"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="clearButton" destination="olW-sl-Xgx" id="Yke-0P-bnB"/>
                         <outlet property="sceneView" destination="VB6-aD-fpE" id="DoK-Sy-12u"/>
+                        <outlet property="textureButton" destination="wMZ-q2-ar6" id="rFD-xW-ybB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s4V-mn-hZW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
